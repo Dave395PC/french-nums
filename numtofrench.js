@@ -6,11 +6,11 @@ module.exports = function(num) {
     }
 
     switch(num.toString().length) { // Amnt of digits
-        case 1:
+        case 1: // #
             return onesPlace(num);
-        case 2:
+        case 2: // ##
             return lengthTwo();
-        case 3:
+        case 3: // ###
             return lengthThree();
         default:
             throw `${num} is too long!`;
@@ -33,7 +33,7 @@ module.exports = function(num) {
 
         else
 
-        if(firDigit == 7) {
+        if(firDigit == 7) { // 7#
             if(num.digit(2) == 1) conjoiner = "-et-"; else
                                   conjoiner = "-";
             return "soixante"+conjoiner+teen(num.digit(2));
@@ -41,7 +41,7 @@ module.exports = function(num) {
 
         else
 
-        if(firDigit == 8) {
+        if(firDigit == 8) { // 8#
             if(num.digit(2) == 0) return "quatre-vingts";
             if(num.digit(2) == 1) return "quatre-vingt-et-un"; else
                                   return "quatre-vingt-"+onesPlace(num.digit(2));
@@ -49,22 +49,22 @@ module.exports = function(num) {
 
         else
 
-        if(firDigit == 9) {
+        if(firDigit == 9) { //9#
             return "quatre-vingt-"+teen(num.digit(2));
         }
     }
 
-    function onesPlace(digit) { // One digit
+    function onesPlace(digit) { // One digit - 0-9
         let numArray = ['zéro', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf'];
         return numArray[digit];
     }
 
-    function teen(digit) {
+    function teen(digit) { // 10-19
         let numArray = ['dix', 'onze', 'douze', 'treize', 'quatorze', 'quinze', 'seize', 'dix-sept', 'dix-huit', 'dix-neuf'];
         return numArray[digit];
     }
 
-    function normTensPlace(digit) {
+    function normTensPlace(digit) { // Two digits - 20-60
         if(!(digit >= 2 && digit <= 6)) throw `${digit}# is not a normal tens place!`;
         let numArray = ['', '', 'vingt', 'trente', 'quarante', 'cinquante', 'soixante']
         return numArray[digit];

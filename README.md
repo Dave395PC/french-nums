@@ -5,6 +5,9 @@
 
 Run the following code in a terminal:
 ```sh
-git clone https://github.com/Dave395PC/french-nums.git && cd french-nums && node .
+git clone https://github.com/Dave395PC/french-nums.git && cd french-nums && npm install && npm start
 ```
-To run again, use `node .` when `cd`'d into the project's folder
+To run again, use `npm start` when `cd`'d into the project's folder
+
+## Requirements:
+

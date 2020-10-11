@@ -22,4 +22,4 @@ for(let i = 0; i < 100; i++) {
     console.log(`${i}: ${numToFrench(i)}`);
 }
 let endTime = new Date();
-console.log(`\nTime Taken (ms): ${endTime - startTime}\n`);
+console.log(`\nTime taken: ${endTime - startTime}ms\n`);

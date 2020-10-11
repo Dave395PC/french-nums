@@ -1,0 +1,22 @@
+{
+  "name": "french-nums",
+  "version": "0.0.1",
+  "description": "Tests your knowledge of French numbers by randomly choosing from a set of your choice (ex 1-100)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dave395PC/french-nums.git"
+  },
+  "keywords": [
+    "French"
+  ],
+  "author": "David",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dave395PC/french-nums/issues"
+  },
+  "homepage": "https://github.com/Dave395PC/french-nums#readme"
+}

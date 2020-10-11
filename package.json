@@ -4,7 +4,7 @@
   "description": "Tests your knowledge of French numbers by randomly choosing from a set of your choice (ex 1-100)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ."
   },
   "repository": {
     "type": "git",

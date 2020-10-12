@@ -22,7 +22,7 @@ module.exports = function(num, error) {
             error(`${num} is too long!`);
     }
 
-    function lengthTwo(numb) { // Num is 2 digits - 25
+    function lengthTwo(numb) { // 2 digits - 25
         let firDigit = numb.digit(1);
         
         if(firDigit == 1) return teen[numb.digit(2)]; // 10-19
@@ -53,7 +53,7 @@ module.exports = function(num, error) {
         return final;
     }
 
-    function lengthThree(numb) { // Num is 3 digits - 450
+    function lengthThree(numb) { // 3 digits - 450
         let conjoiner = "-";
         let plural = false;
         if(numb.digit(2) == 0 && numb.digit(3) == 0) { // 1 sig fig - 400
@@ -80,7 +80,7 @@ module.exports = function(num, error) {
         
     }
 
-    function lengthFour(numb) {
+    function lengthFour(numb) { // 4 digits - 2231
         let final;
         if(numb.digit(1) == 1) final = "mille"; else
                                final = onesPlace[numb.digit(1)]+"-mille";
@@ -92,7 +92,7 @@ module.exports = function(num, error) {
         return final;
     }
 
-    function lengthFive(numb) {
+    function lengthFive(numb) { // 5 digits - 34597
         let final;
 
         final = lengthTwo( addDigits(numb.digit(1), numb.digit(2)) ) + "-mille";
@@ -105,7 +105,7 @@ module.exports = function(num, error) {
         return final;
     }
 
-    function lengthSix(numb) {
+    function lengthSix(numb) { // 6 digits - 238723
         let final;
 
         final = lengthThree( addDigits(numb.digit(1), numb.digit(2), numb.digit(3)) ).replace(`cents`, `cent`) + "-mille";

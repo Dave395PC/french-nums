@@ -7,7 +7,7 @@ module.exports = function(num, error) {
 
     switch(num.toString().length) { // Amnt of digits
         case 1: // #
-            return onesPlace(num);
+            return onesPlace[num];
         case 2: // ##
             return lengthTwo(num);
         case 3: // ###
@@ -25,39 +25,32 @@ module.exports = function(num, error) {
     function lengthTwo(numb) { // Num is 2 digits - 25
         let firDigit = numb.digit(1);
         
-        if(firDigit == 1) { // 1#
-            return teen(numb.digit(2));
-        } 
+        if(firDigit == 1) return teen[numb.digit(2)]; // 10-19
         
-        else
-        
-        if(firDigit >= 2 && firDigit <= 6) { // 2# - 6#
-            if(numb.digit(2) == 0) return normTensPlace(firDigit); else
-            if(numb.digit(2) == 1) return normTensPlace(firDigit)+"-et-un"; else
-                                  return normTensPlace(firDigit)+"-"+onesPlace(numb.digit(2));
+        // 20-99
+
+        let final = tensPlace[firDigit];
+
+        if(numb.digit(2) == 1 && firDigit != 9) final += "-et"; // vingt-et-un
+
+        if(firDigit != 7 && firDigit != 9) { // Normal number
+
+            if(numb.digit(2) == 0) {
+                if(firDigit == 8) final += "s"; // quatre-vingts / quatre-vingt-deux
+                return final;
+            }
+
+            final += "-"+onesPlace[numb.digit(2)];
+
+        } else { // Wtf is wrong with you weird-ass number (70 & 90)
+                 //                (soixante-dix & quatre-vingt-dix)
+                 //                soixante-et-onze & quatre-vingt-onze
+
+            final += "-"+teen[numb.digit(2)];
+
         }
 
-        else
-
-        if(firDigit == 7) { // 7#
-            if(numb.digit(2) == 1) conjoiner = "-et-"; else
-                                  conjoiner = "-";
-            return "soixante"+conjoiner+teen(numb.digit(2));
-        }
-
-        else
-
-        if(firDigit == 8) { // 8#
-            if(numb.digit(2) == 0) return "quatre-vingts";
-            if(numb.digit(2) == 1) return "quatre-vingt-et-un"; else
-                                  return "quatre-vingt-"+onesPlace(numb.digit(2));
-        }
-
-        else
-
-        if(firDigit == 9) { //9#
-            return "quatre-vingt-"+teen(numb.digit(2));
-        }
+        return final;
     }
 
     function lengthThree(numb) { // Num is 3 digits - 450
@@ -71,12 +64,12 @@ module.exports = function(num, error) {
         let final = "";
 
         if(numb.digit(1) == 1) final = "cent"; else
-                               final = onesPlace(numb.digit(1))+conjoiner+"cent"
+                               final = onesPlace[numb.digit(1)]+conjoiner+"cent"
         
         if(conjoiner == " ") return (plural) ? final+"s" : final; else final += "-";
 
         if(numb.digit(2) == 0) { // 405
-            final += onesPlace(numb.digit(3));
+            final += onesPlace[numb.digit(3)];
             return final;
         } else { // 450
             let thisNum = addDigits(numb.digit(2), numb.digit(3));
@@ -90,7 +83,7 @@ module.exports = function(num, error) {
     function lengthFour(numb) {
         let final;
         if(numb.digit(1) == 1) final = "mille"; else
-                               final = onesPlace(numb.digit(1))+"-mille";
+                               final = onesPlace[numb.digit(1)]+"-mille";
         let lastThree = addDigits(numb.digit(2), numb.digit(3), numb.digit(4));
 
         if(lastThree == 0) return final;
@@ -139,26 +132,11 @@ module.exports = function(num, error) {
                 break;
             case 1:
                 if(three == 1) final += "-et";
-                final += "-"+onesPlace(three);
+                final += "-"+onesPlace[three];
                 break;
         }
 
         return final;
-    }
-
-    function onesPlace(digit) { // One digit - 0-9
-        let numArray = ['zéro', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf'];
-        return numArray[digit];
-    }
-
-    function teen(digit) { // 10-19
-        let numArray = ['dix', 'onze', 'douze', 'treize', 'quatorze', 'quinze', 'seize', 'dix-sept', 'dix-huit', 'dix-neuf'];
-        return numArray[digit];
-    }
-
-    function normTensPlace(digit) { // Two digits - 20-90
-        let numArray = ['', '', 'vingt', 'trente', 'quarante', 'cinquante', 'soixante', 'soixante', 'quatre-vingt', 'quatre-vingt']
-        return numArray[digit];
     }
 
     function addDigits(digit1, digit2, digit3) {
@@ -168,6 +146,12 @@ module.exports = function(num, error) {
         return final;
     }
 };
+
+let onesPlace = ['zéro', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf'];
+
+let teen = ['dix', 'onze', 'douze', 'treize', 'quatorze', 'quinze', 'seize', 'dix-sept', 'dix-huit', 'dix-neuf'];
+
+let tensPlace = ['', '', 'vingt', 'trente', 'quarante', 'cinquante', 'soixante', 'soixante', 'quatre-vingt', 'quatre-vingt'];
 
 Number.prototype.digit = function(place) {
     //if(!Number.isSafeInteger(this)) throw `${this} is not an int!`;

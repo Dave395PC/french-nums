@@ -10,6 +10,7 @@ function error(txt) {
     console.error(chalk.bold.red(`Error: ${txt}`));
 }
 
+
 function prompt() {
     const interfacee = readline.createInterface({
         input: process.stdin,
@@ -27,6 +28,7 @@ function prompt() {
 console.log(chalk.yellow("Use Ctrl+Z to stop the program"));
 prompt();
 
+
 /*
 let startTime = new Date();
 for(let i = 0; i < 100; i++) {
@@ -34,4 +36,5 @@ for(let i = 0; i < 100; i++) {
 }
 let endTime = new Date();
 console.log(`\nTime taken: ${endTime - startTime}ms\n`);
+process.exit(0);
 */

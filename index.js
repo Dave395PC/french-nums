@@ -15,7 +15,7 @@ function prompt() {
         input: process.stdin,
         output: process.stdout
     });
-    interfacee.question("Input a number (len 1-3): ", input => {
+    interfacee.question("Input a number (0-999999): ", input => {
         interfacee.close();
         
         let word = numToFrench(input, error);

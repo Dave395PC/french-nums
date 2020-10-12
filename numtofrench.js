@@ -12,6 +12,12 @@ module.exports = function(num, error) {
             return lengthTwo(num);
         case 3: // ###
             return lengthThree(num);
+        case 4: // #,###
+            return lengthFour(num);
+        case 5: // ##,###
+            return lengthFive(num);
+        case 6: // ###,###
+            return lengthSix(num);
         default:
             error(`${num} is too long!`);
     }
@@ -81,6 +87,65 @@ module.exports = function(num, error) {
         
     }
 
+    function lengthFour(numb) {
+        let final;
+        if(numb.digit(1) == 1) final = "mille"; else
+                               final = onesPlace(numb.digit(1))+"-mille";
+        let lastThree = addDigits(numb.digit(2), numb.digit(3), numb.digit(4));
+
+        if(lastThree == 0) return final;
+        final += threeSegment(lastThree);
+
+        return final;
+    }
+
+    function lengthFive(numb) {
+        let final;
+
+        final = lengthTwo( addDigits(numb.digit(1), numb.digit(2)) ) + "-mille";
+
+        let lastThree = addDigits(numb.digit(3), numb.digit(4), numb.digit(5));
+
+        if(lastThree == 0) return final;
+        final += threeSegment(lastThree);
+
+        return final;
+    }
+
+    function lengthSix(numb) {
+        let final;
+
+        final = lengthThree( addDigits(numb.digit(1), numb.digit(2), numb.digit(3)) ).replace(`cents`, `cent`) + "-mille";
+
+        let lastThree = addDigits(numb.digit(4), numb.digit(5), numb.digit(6));
+
+        if(lastThree == 0) return final;
+        final += threeSegment(lastThree);
+
+        final = final.replace(/ /g, `-`);
+
+        return final;
+    }
+
+    function threeSegment(three) { // 1,234 the 234 bit
+        let final = '';
+        
+        switch(three.toString().length) {
+            case 3:
+                final += "-"+lengthThree(three);
+                break;
+            case 2:
+                final += "-"+lengthTwo(three);
+                break;
+            case 1:
+                if(three == 1) final += "-et";
+                final += "-"+onesPlace(three);
+                break;
+        }
+
+        return final;
+    }
+
     function onesPlace(digit) { // One digit - 0-9
         let numArray = ['zéro', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf'];
         return numArray[digit];
@@ -91,14 +156,16 @@ module.exports = function(num, error) {
         return numArray[digit];
     }
 
-    function normTensPlace(digit) { // Two digits - 20-60
-        if(!(digit >= 2 && digit <= 6)) throw `${digit}# is not a normal tens place!`;
-        let numArray = ['', '', 'vingt', 'trente', 'quarante', 'cinquante', 'soixante']
+    function normTensPlace(digit) { // Two digits - 20-90
+        let numArray = ['', '', 'vingt', 'trente', 'quarante', 'cinquante', 'soixante', 'soixante', 'quatre-vingt', 'quatre-vingt']
         return numArray[digit];
     }
 
-    function addDigits(digit1, digit2) {
-        return parseInt( digit1.toString() + digit2.toString() )
+    function addDigits(digit1, digit2, digit3) {
+        let final;
+        final = parseInt( digit1.toString() + digit2.toString() );
+        if(digit3 || digit3 == 0) final = parseInt( final.toString() + digit3.toString() );
+        return final;
     }
 };
 

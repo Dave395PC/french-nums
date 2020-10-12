@@ -16,3 +16,7 @@ Use Ctrl+Z to stop the program
 Input a number (len 1-3): 387
 trois-cent-quatre-vingt-sept
 ```
+
+## Requirements:
+
+[Node.js](https://nodejs.org/en/) (and `npm`)

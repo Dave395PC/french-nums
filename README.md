@@ -1,5 +1,6 @@
 # french-nums
  Converts numbers in numerical form (i.e. 12) to written form in French (i.e. douze).
+ Also lists numbers in French.
 
 ## How to Run:
 

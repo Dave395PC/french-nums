@@ -1,8 +1,21 @@
+/**
+ * Converts a number to written French
+ * @module numtofrench
+ * @type {function}
+ */
+
+/**
+ * Convert a number to written French
+ * @param {number} num Number to be converted
+ * @param {function} error Throws errors with this
+ * @return {string} The given number written in French
+ */
 module.exports = function(num, error) {
+    let origNum = num; // Original input
     num = parseInt(num);
     
     if( isNaN(num) ) {
-        return(error(`${num} is not a number!`));
+        return(error(`"${origNum}" is not a number!`));
     }
 
     switch(num.toString().length) { // Amnt of digits
@@ -27,30 +40,28 @@ module.exports = function(num, error) {
         
         if(firDigit == 1) return teen[numb.digit(2)]; // 10-19
         
-        // 20-99
+        else { // 20-99
 
-        let final = tensPlace[firDigit];
+            let final = tensPlace[firDigit];
 
-        if(numb.digit(2) == 1 && firDigit != 9) final += "-et"; // vingt-et-un
+            if(numb.digit(2) == 1 && firDigit != 9) final += "-et"; // vingt-et-un, trente-et-un
 
-        if(firDigit != 7 && firDigit != 9) { // Normal number
+            if(firDigit != 7 && firDigit != 9) { // Normal number
 
-            if(numb.digit(2) == 0) {
-                if(firDigit == 8) final += "s"; // quatre-vingts / quatre-vingt-deux
-                return final;
+                if(numb.digit(2) == 0) {
+                    if(firDigit == 8) final += "s"; // quatre-vingts / quatre-vingt-deux
+                    return final;
+                }
+                final += "-"+onesPlace[numb.digit(2)];
+
+            } else { // Wtf is wrong with you weird-ass number (70 & 90)
+                    //                (soixante-dix & quatre-vingt-dix)
+                    //                soixante-et-onze & quatre-vingt-onze
+                final += "-"+teen[numb.digit(2)];
             }
 
-            final += "-"+onesPlace[numb.digit(2)];
-
-        } else { // Wtf is wrong with you weird-ass number (70 & 90)
-                 //                (soixante-dix & quatre-vingt-dix)
-                 //                soixante-et-onze & quatre-vingt-onze
-
-            final += "-"+teen[numb.digit(2)];
-
+            return final;
         }
-
-        return final;
     }
 
     function lengthThree(numb) { // 3 digits - 450
@@ -153,6 +164,11 @@ let teen = ['dix', 'onze', 'douze', 'treize', 'quatorze', 'quinze', 'seize', 'di
 
 let tensPlace = ['', '', 'vingt', 'trente', 'quarante', 'cinquante', 'soixante', 'soixante', 'quatre-vingt', 'quatre-vingt'];
 
+/**
+ * Gets a specified digit from a number
+ * @param {number} place Desired digit's place from the right
+ * @return {number} The digit in the requested place
+ */
 Number.prototype.digit = function(place) {
     //if(!Number.isSafeInteger(this)) throw `${this} is not an int!`;
 

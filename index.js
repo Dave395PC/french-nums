@@ -24,27 +24,46 @@ function choise() {
     switch(input) {
         case 'convert':
         case 'c':
-        case undefined || "":
             prompt();
             break;
         case 'list':
+        case 'quizlet':
+        case 'study':
         case 'l':
             let start = ask("Start number: ");
             let end = ask("End number: ");
             let step = ask("Step: ");
-            if(step == "" || isNaN(parseInt(step))) step = 1;
-            else step = parseInt(step);
-            list(start, end, step);
+                if(step == "" || isNaN(parseInt(step))) step = 1;
+                else step = parseInt(step);
+            let separator = ask("Separator: ");
+                if(separator == "") separator = ": ";
+                else if(separator == "tab") separator = "\t";
+
+            if(start < 0)       return error("start is less than 0!"); else
+            if(start >= 999999) return error("start is too large!"); else
+            if(end > 999999)    return error("end is too large!"); else
+            if(end <= 0)        return error("end is too small!"); else
+            if(start > end)     return error("end must be larger than start!");
+            list(start, end, step, separator);
             setTimeout(choise, 0);
+            break;
+        case 'test':
+            quiz();
+            break;
+        case undefined || "":
+            setTimeout(choise, 0);
+            break;
+        case 'quit':
+        case 'exit':
+            process.exit(0);
             break;
         default:
             //Unrecognised option
-            //console.log(input);
-            //console.log(typeof input);
             error(`'${input}' is not an option`);
             setTimeout(choise, 0);
             break;
     }
+    setTimeout(choise, 0);
 }
 
 /**
@@ -68,14 +87,10 @@ function prompt() {
  * @param {number} start >= 0
  * @param {number} end < 1,000,000
  * @param {number} step Number to iterate by
+ * @param {string} separator String that separates numeral from french word
  */
-function list(start, end, step = 1) {
-
-    if(start < 0)      return error("start is less than 0!"); else
-    if(start >= 999999) return error("start is too large!"); else
-    if(end > 999999)    return error("end is too large!"); else
-    if(end <= 0)        return error("end is too small!"); else
-    if(start > end)     return error("end must be larger than start!");
+function list(start, end, step, separator) {
+    if(!step) step = 1;
 
     start = parseInt(start);
     end = parseInt(end);
@@ -84,14 +99,31 @@ function list(start, end, step = 1) {
     let startTime = new Date();
     //for(let i = 0; i < 1000000; i++)
     for(let i = start; i <= end; i += step) {
-        console.log(`${i}: ${numToFrench(i, error)}`);
+        console.log(`${i}${separator}${numToFrench(i, error)}`);
     }
     let endTime = new Date();
     console.log(`\nTime taken: ${endTime - startTime}ms\n`);
-    setTimeout(choise, 100);
 }
 
+function quiz() {
+	announce("Quiz time!");
+	announce("Answer with the given number written in French.");
+	console.log(chalk.bold("Correct answers will be marked as ") + chalk.bold.green("green") + chalk.bold.white("."));
+	console.log(chalk.bold("Incorrect answers will be marked as ") + chalk.bold.red("red") + chalk.bold.white("."));
+	announce("Let's begin!");
+}
+
+/**
+ * Prompt the user for input
+ */
 let ask = rl.question;
+/**
+ * Print in bold white
+ * @param {string} txt The message
+*/
+function announce(txt) {
+	console.log(chalk.bold(txt));
+}
 
 console.log(chalk.yellow("Use Ctrl+Z to stop the program"));
 choise();
